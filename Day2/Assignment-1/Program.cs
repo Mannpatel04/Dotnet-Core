@@ -1,4 +1,8 @@
-
+using Assignment_1.Data;
+using Assignment_1.Interfaces;
+using Assignment_1.Models;
+using Assignment_1.Services;
+using Microsoft.EntityFrameworkCore;
 namespace Assignment_1
 {
     public class Program
@@ -9,6 +13,16 @@ namespace Assignment_1
             
             var builder = WebApplication.CreateBuilder(args);
 
+            builder.Services.AddDbContext<AppDBContext>();
+
+            builder.Services.AddScoped<IProductService, ProductServices>();
+
+            builder.Services.AddTransient<ITransientService, LifetimeService>();
+            builder.Services.AddScoped<IScopedService, LifetimeService>();
+            builder.Services.AddSingleton<ISingletonService, LifetimeService>();
+
+            builder.Services.AddSwaggerGen();
+           
             // Add services to the container.
 
             builder.Services.AddControllers();
@@ -16,6 +30,8 @@ namespace Assignment_1
             builder.Services.AddOpenApi();
 
             var app = builder.Build();
+            app.UseSwagger();
+            app.UseSwaggerUI();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
@@ -34,3 +50,4 @@ namespace Assignment_1
         }
     }
 }
+   

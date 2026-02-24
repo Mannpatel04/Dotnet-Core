@@ -1,5 +1,15 @@
 [
   {
+    "ContainingType": "Assignment_1.Controllers.LifeTimeServiceController",
+    "Method": "Get",
+    "RelativePath": "api/lifetime",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "Assignment_1.Controllers.ProductController",
     "Method": "GetAll",
     "RelativePath": "api/products",
