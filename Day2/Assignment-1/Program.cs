@@ -1,5 +1,6 @@
 using Assignment_1.Data;
 using Assignment_1.Interfaces;
+using Assignment_1.Mapping;
 using Assignment_1.Models;
 using Assignment_1.Services;
 using Microsoft.EntityFrameworkCore;
@@ -22,7 +23,8 @@ namespace Assignment_1
             builder.Services.AddSingleton<ISingletonService, LifetimeService>();
 
             builder.Services.AddSwaggerGen();
-           
+
+            builder.Services.AddAutoMapper(typeof(ProductProfile));
             // Add services to the container.
 
             builder.Services.AddControllers();
@@ -30,13 +32,14 @@ namespace Assignment_1
             builder.Services.AddOpenApi();
 
             var app = builder.Build();
-            app.UseSwagger();
-            app.UseSwaggerUI();
+           
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.MapOpenApi();
+                app.UseSwagger();
+                app.UseSwaggerUI();
             }
 
             app.UseHttpsRedirection();

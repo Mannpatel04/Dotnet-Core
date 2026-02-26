@@ -45,6 +45,18 @@ namespace Assignment_1.Services
             _context.SaveChanges();
             return true;
         }
+
+        public bool Update(Product product)
+        {
+            var existing = _context.Products.Find(product.Id);
+            if (existing == null) return false;
+
+            existing.Name = product.Name;
+            existing.Category = product.Category;
+
+            _context.SaveChanges();
+            return true;
+        }
     }
 
 }

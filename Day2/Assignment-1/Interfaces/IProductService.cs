@@ -11,5 +11,6 @@ namespace Assignment_1.Interfaces
         List<Product> GetByCategory(string category);
         void Add(Product product);
         bool Delete(int id);
+        bool Update(Product product);
     }
 }
