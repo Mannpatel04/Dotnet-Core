@@ -2,13 +2,14 @@
 using Assignment_1.Interfaces;
 using Assignment_1.Models;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 
 namespace Assignment_1.Controllers
 {
-
+  
     [Route("api/products")]
     [ApiController]
 
@@ -24,6 +25,7 @@ namespace Assignment_1.Controllers
             _mapper = mapper;
         }
 
+     
         [HttpGet]
         public IActionResult GetAll()
         {
@@ -32,6 +34,7 @@ namespace Assignment_1.Controllers
             return Ok(result);
         }
 
+      
         [HttpGet("{id:int}")]
         public IActionResult GetById(int id)
         {
@@ -41,12 +44,14 @@ namespace Assignment_1.Controllers
             return Ok(_mapper.Map<ProductReadDTO>(product));
         }
 
+       
         [HttpGet("category/{name}")]
         public IActionResult GetByCategory(string name)
         {
              return Ok(_service.GetByCategory(name));
         }
 
+        [Authorize(Roles ="Admin")]
         [HttpPost]
         public IActionResult Create(ProductCreateDTO dto)
         {
@@ -63,12 +68,15 @@ namespace Assignment_1.Controllers
             );
         }
 
+        [Authorize(Roles= "admin")]
         [HttpDelete("{id:int}")]
         public IActionResult Delete(int id)
         {
             return _service.Delete(id) ? NoContent() : NotFound();
         }
 
+
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id:int}")]
         public IActionResult Update(int id, ProductUpdateDTO dto)
         {

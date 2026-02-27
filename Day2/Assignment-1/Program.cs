@@ -1,9 +1,14 @@
 using Assignment_1.Data;
 using Assignment_1.Interfaces;
 using Assignment_1.Mapping;
+using Assignment_1.Middleware;
 using Assignment_1.Models;
 using Assignment_1.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Scalar.AspNetCore;
+using System.Text;
 namespace Assignment_1
 {
     public class Program
@@ -22,7 +27,6 @@ namespace Assignment_1
             builder.Services.AddScoped<IScopedService, LifetimeService>();
             builder.Services.AddSingleton<ISingletonService, LifetimeService>();
 
-            builder.Services.AddSwaggerGen();
 
             builder.Services.AddAutoMapper(typeof(ProductProfile));
             // Add services to the container.
@@ -30,9 +34,30 @@ namespace Assignment_1
             builder.Services.AddControllers();
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
+            builder.Services.AddSwaggerGen();
 
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(option =>
+            {
+                option.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+
+                    ValidIssuer = builder.Configuration["JWT:Issuer"],
+                    ValidAudience = builder.Configuration["JWT:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"]))
+                };
+            });
+
+
+            builder.Services.AddAuthorization();
             var app = builder.Build();
-           
+
+
+          
+            
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
@@ -40,12 +65,20 @@ namespace Assignment_1
                 app.MapOpenApi();
                 app.UseSwagger();
                 app.UseSwaggerUI();
+                app.MapScalarApiReference(options =>
+                {
+                    options.WithTitle("My API");
+                    options.WithOpenApiRoutePattern("/swagger/{documentName}/swagger.json");
+                });
             }
 
             app.UseHttpsRedirection();
-            
-            app.UseAuthorization();
 
+            app.UseAuthentication();
+            app.UseAuthorization();
+           
+
+            app.UseMiddleware<RequestLoggingMiddleware>();
 
             app.MapControllers();
 
