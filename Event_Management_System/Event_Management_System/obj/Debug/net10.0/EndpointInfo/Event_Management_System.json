@@ -150,6 +150,28 @@
         }
       }
     },
+    "/api/Booking/GetbookingsbyOrganizerId": {
+      "get": {
+        "tags": [
+          "Booking"
+        ],
+        "parameters": [
+          {
+            "name": "OrganizerId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Event": {
       "post": {
         "tags": [

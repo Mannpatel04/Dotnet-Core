@@ -4,9 +4,11 @@ using Event_Management_System.Application.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Event_Management_System.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class BookingController : ControllerBase
@@ -45,5 +47,21 @@ namespace Event_Management_System.Controllers
 
             return Ok(bookings);
         }
+
+        [HttpGet("GetbookingsbyOrganizerId")]
+        [Authorize(Roles = "Admin, Organizer")]
+
+        public async Task<IActionResult> GetRegistrationsByOrganizer(Guid OrganizerId)
+        {
+            var result = await _bookingService.GetBookingByorganizerId(OrganizerId);
+            return Ok(result);
+        }
+
+
+
+
+
+
+
     }
 }

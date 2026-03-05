@@ -10,5 +10,6 @@ namespace Event_Management_System.Application.Interface
         Task CancelBooking(Guid bookingId, Guid userId);
         Task<List<BookingResponseDto>> GetAllBookings();
         Task<List<BookingResponseDto>> GetRegistrationsByEvent(Guid eventId);
+        Task<List<BookingResponseDto>> GetBookingByorganizerId(Guid organizerId);
     }
 }

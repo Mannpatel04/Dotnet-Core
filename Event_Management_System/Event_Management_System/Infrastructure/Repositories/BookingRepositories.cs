@@ -63,5 +63,25 @@ namespace Event_Management_System.Infrastructure.Repositories
                 .Include(b => b.User)
                 .ToListAsync();
         }
+
+        public async Task<List<BookingResponseDto>> GetRegistrationByOrganizerId(Guid OrganizerId)
+        {
+            var registrations = await _context.Bookings.AsNoTracking().Include(b => b.Event).Include(b => b.User).ToListAsync();
+
+
+            if (registrations == null)
+            {
+                return null;
+            }
+
+            return registrations.Select(x => new BookingResponseDto
+            {
+                Id = x.Id,
+                EventId = x.EventId,
+                RegisterName = x.User.Name,
+                EventTitle = x.Event.Title,
+                BookedAt = x.BookedAt,
+            }).ToList();
+        }
     }
 }

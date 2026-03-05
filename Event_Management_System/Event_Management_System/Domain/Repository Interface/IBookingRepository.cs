@@ -12,6 +12,7 @@ namespace Event_Management_System.Domain.Repository_Interface
         Task<bool> CancelBooking(Guid bookingId);
         Task<List<Booking>> GetByEventId(Guid eventId);
         Task<List<Booking>> GetAllBookings();
+        Task<List<BookingResponseDto>> GetRegistrationByOrganizerId(Guid OrganizerId);
 
 
 

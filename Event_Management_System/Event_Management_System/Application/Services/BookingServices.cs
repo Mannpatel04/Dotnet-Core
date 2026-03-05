@@ -93,6 +93,18 @@ namespace Event_Management_System.Application.Services
                 BookedAt = b.BookedAt
             }).ToList();
         }
+
+        public async Task<List<BookingResponseDto>> GetBookingByorganizerId(Guid organizerId)
+        {
+            var bookings  = await _bkr.GetRegistrationByOrganizerId(organizerId);
+
+            if(bookings == null)
+            {
+                throw new Exception("Registration Not Found");
+            }
+            return bookings;
+
+        }
     }
        
 }

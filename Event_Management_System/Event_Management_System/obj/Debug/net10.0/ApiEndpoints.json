@@ -95,6 +95,22 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "Event_Management_System.Controllers.BookingController",
+    "Method": "GetRegistrationsByOrganizer",
+    "RelativePath": "api/Booking/GetbookingsbyOrganizerId",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "OrganizerId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "Event_Management_System.Controllers.EventController",
     "Method": "CreateEvent",
     "RelativePath": "api/Event",

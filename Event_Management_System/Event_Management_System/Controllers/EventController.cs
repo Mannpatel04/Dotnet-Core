@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.RateLimiting;
 
 namespace Event_Management_System.Controllers
 {
+    [Authorize]
     [EnableRateLimiting("fixed")]
     [Route("api/[controller]")]
     [ApiController]
@@ -45,7 +46,7 @@ namespace Event_Management_System.Controllers
         }
 
 
-        [Authorize(Roles = "Admin,Organizer")]
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEvent(Guid id)
         {
@@ -56,7 +57,7 @@ namespace Event_Management_System.Controllers
             return Ok("Event deleted");
         }
 
-        [AllowAnonymous]
+        
         [HttpGet]
         public async Task<IActionResult> GetAllEvents()
         {
@@ -65,7 +66,7 @@ namespace Event_Management_System.Controllers
             return Ok(events);
         }
 
-        [AllowAnonymous]
+      
         [HttpGet("{id}")]
         public async Task<IActionResult> GetEvent(Guid id)
         {
@@ -74,7 +75,7 @@ namespace Event_Management_System.Controllers
             return Ok(ev);
         }
 
-        [Authorize(Roles = "Admin,Organizer")]
+        [Authorize(Roles = "Admin")]
         [HttpGet("{eventId}/registrations")]
         public async Task<IActionResult> GetRegistrations(Guid eventId)
         {
@@ -83,7 +84,7 @@ namespace Event_Management_System.Controllers
             return Ok(registrations);
         }
 
-        [Authorize(Roles = "Organizer")]
+        [Authorize(Roles = "Organizer,Admin")]
         [HttpGet("my-events")]
         public async Task<IActionResult> GetMyEvents()
         {
@@ -93,5 +94,7 @@ namespace Event_Management_System.Controllers
 
             return Ok(events);
         }
+
+
     }
 }
